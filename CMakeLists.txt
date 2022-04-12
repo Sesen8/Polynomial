@@ -3,4 +3,4 @@ project(polynomial_methods)
 
 set(CMAKE_CXX_STANDARD 14)
 
-add_executable(polynomial_methods main.cpp)
+add_executable(polynomial_methods unit-test.cpp polynomial.cpp polynomial.h)
