@@ -37,7 +37,7 @@ Polynomial::Polynomial(const Polynomial& polynomial): _degree(polynomial._degree
 }
 Polynomial::~Polynomial(){
 
-    delete _coefficients;
+    delete[] _coefficients;
 
 	// DO THIS FIRST TO PREVENT MEMORY LEAKS!
 
@@ -135,14 +135,14 @@ const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
 
 
 const Polynomial Polynomial::Derive()const{
-    cout << this->ToString() << endl;
+    //cout << this->ToString() << endl;
     Polynomial retVal(_degree-1);
     for(size_t i =0; i<_degree; ++i){
-        retVal._coefficients[i] += (i-1) *this->_coefficients[i];
+        retVal._coefficients[i-1] += i *this->_coefficients[i];
 
     }
 
-    cout << retVal.ToString() << endl;
+    //cout << retVal.ToString() << endl;
 	return retVal;
 }
 
