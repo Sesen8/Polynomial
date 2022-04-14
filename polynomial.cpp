@@ -2,7 +2,7 @@
 
 #include <iostream>
 #include <string>
-#include <sstream>
+//#include <sstream>
 #include <iomanip>
 #include <cfloat>
 #include <math.h>
@@ -125,6 +125,13 @@ const Polynomial Polynomial::Multiply(const Polynomial& rhs)const {
 
 
 const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
+    Polynomial retVal(_degree);
+    for(size_t i=0; i<_degree; ++i){
+        for(size_t j=0; i<_degree; ++i){
+
+        }
+    }
+
 
 
 
@@ -149,7 +156,7 @@ const Polynomial Polynomial::Derive()const{
 
 float Polynomial::Evaluate(float x)const{
     //cout << this->ToString() << endl;
-    double value = 0;
+    float value = 0;
     for (size_t i = 0; i < _degree+1; ++i){
         value += this->_coefficients[i] * pow(x,i);
     }
@@ -158,7 +165,13 @@ float Polynomial::Evaluate(float x)const{
 	return value;
 }
 float Polynomial::Integrate(float start, float end)const{
-	return FLT_MAX;
+    Polynomial retVal(_degree+1);
+
+    retVal._coefficients[0]= 0.0;
+    for(size_t i =0; i<_degree+1; ++i){
+        retVal._coefficients[i+1] = (1.0f/(i+1))*this->_coefficients[i];
+    }
+    return retVal.Evaluate(end) - retVal.Evaluate(start);
 }
 const Polynomial& Polynomial::operator=(const Polynomial& rhs){
 	if (&rhs == this){
