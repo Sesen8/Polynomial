@@ -48,25 +48,21 @@ Polynomial::~Polynomial(){
 const Polynomial Polynomial::Sum(const Polynomial& rhs)const {
     //cout << this->ToString() << endl;
 
-    if (_degree > rhs._degree) {
-        Polynomial retVal(_degree);
-        for (size_t i = 0; i < _degree + 1; ++i) {
-            retVal._coefficients[i] += this->_coefficients[i] + rhs._coefficients[i];
+    if (this->_degree > rhs._degree) {
+        Polynomial retVal(*this);//makes the polynomial with highest degree of this
+        for (size_t i = 0; i < rhs._degree + 1; ++i) {
+            retVal._coefficients[i] +=  rhs._coefficients[i];
         }
         //cout << retVal.ToString() << endl;
-
         return retVal;
-
     }
 
     else {
-
-        Polynomial retVal(rhs._degree);
-        for (size_t i = 0; i < rhs._degree + 1; ++i) {
-            retVal._coefficients[i] += this->_coefficients[i] + rhs._coefficients[i];
+        Polynomial retVal(rhs);//makes the polynomial with highest degree of rhs
+        for (size_t i = 0; i < this->_degree + 1; ++i) {
+            retVal._coefficients[i] +=  this->_coefficients[i];
         }
         //cout << retVal.ToString() << endl;
-
         return retVal;
     }
 }
@@ -75,25 +71,21 @@ const Polynomial Polynomial::Sum(const Polynomial& rhs)const {
 const Polynomial Polynomial::Subtract(const Polynomial& rhs)const{
     //cout << this->ToString() << endl;
 
-    if (_degree > rhs._degree) {
-        Polynomial retVal(_degree);
-        for (size_t i = 0; i < _degree + 1; ++i) {
-            retVal._coefficients[i] += this->_coefficients[i] - rhs._coefficients[i];
+    if (this->_degree > rhs._degree) {
+        Polynomial retVal(*this);//makes the polynomial with highest degree of this
+        for (size_t i = 0; i < rhs._degree + 1; ++i) {
+            retVal._coefficients[i] -=  rhs._coefficients[i];
         }
         //cout << retVal.ToString() << endl;
-
         return retVal;
-
     }
 
     else {
-
-        Polynomial retVal(rhs._degree);
-        for (size_t i = 0; i < rhs._degree + 1; ++i) {
-            retVal._coefficients[i] += this->_coefficients[i] - rhs._coefficients[i];
+        Polynomial retVal(rhs);//makes the polynomial with highest degree of rhs
+        for (size_t i = 0; i < this->_degree + 1; ++i) {
+            retVal._coefficients[i] -=  this->_coefficients[i];
         }
         //cout << retVal.ToString() << endl;
-
         return retVal;
     }
 }
@@ -109,11 +101,12 @@ const Polynomial Polynomial::Minus()const{
 }
 
 
+
 const Polynomial Polynomial::Multiply(const Polynomial& rhs)const {
     //cout << this->ToString() << endl;
 
-        Polynomial retVal(_degree+rhs._degree);
-        for (size_t i = 0; i < _degree + 1; ++i) {
+        Polynomial retVal(this->_degree+rhs._degree); //makes the polynomial with highest degree of this+rhs
+        for (size_t i = 0; i < this->_degree + 1; ++i) {
             for (size_t j = 0; j < rhs._degree+1; ++j) {
                 retVal._coefficients[i + j] += this->_coefficients[i] * rhs._coefficients[j];
             }
@@ -124,17 +117,14 @@ const Polynomial Polynomial::Multiply(const Polynomial& rhs)const {
 }
 
 
+
 const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
     Polynomial retVal(_degree);
     for(size_t i=0; i<_degree; ++i){
-        for(size_t j=0; i<_degree; ++i){
+        //for(size_t j=0; i<_degree; ++i){
 
-        }
+        //}
     }
-
-
-
-
 
 
 	return Polynomial(0);
@@ -143,10 +133,9 @@ const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
 
 const Polynomial Polynomial::Derive()const{
     //cout << this->ToString() << endl;
-    Polynomial retVal(_degree-1);
-    for(size_t i =0; i<_degree; ++i){
+    Polynomial retVal(this->_degree-1);//makes the polynomial with highest degree of this-1
+    for(size_t i =1; i<this->_degree; ++i){
         retVal._coefficients[i-1] += i *this->_coefficients[i];
-
     }
 
     //cout << retVal.ToString() << endl;
@@ -154,25 +143,39 @@ const Polynomial Polynomial::Derive()const{
 }
 
 
+
+
 float Polynomial::Evaluate(float x)const{
     //cout << this->ToString() << endl;
     float value = 0;
-    for (size_t i = 0; i < _degree+1; ++i){
+    for (size_t i = 0; i < this->_degree+1; ++i){
         value += this->_coefficients[i] * pow(x,i);
     }
     //cout << value << endl;
 
 	return value;
 }
-float Polynomial::Integrate(float start, float end)const{
-    Polynomial retVal(_degree+1);
 
-    retVal._coefficients[0]= 0.0;
-    for(size_t i =0; i<_degree+1; ++i){
-        retVal._coefficients[i+1] = (1.0f/(i+1))*this->_coefficients[i];
+
+
+
+
+float Polynomial::Integrate(float start, float end)const{
+    Polynomial retVal(this->_degree+1);//makes the polynomial with highest degree of this+1
+
+    retVal._coefficients[0]= 0.0; //first value has to be zero for c
+    for(size_t i =0; i<this->_degree+1; ++i){
+        retVal._coefficients[i+1] = (1.0f/(i+1))*this->_coefficients[i]; //dont need the x to power here
     }
-    return retVal.Evaluate(end) - retVal.Evaluate(start);
+
+    float defInt = retVal.Evaluate(end) - retVal.Evaluate(start);
+    return defInt;
 }
+
+
+
+
+
 const Polynomial& Polynomial::operator=(const Polynomial& rhs){
 	if (&rhs == this){
 		return *this;
@@ -189,6 +192,9 @@ const Polynomial& Polynomial::operator=(const Polynomial& rhs){
 	}
 	return *this;
 }
+
+
+
 bool Polynomial::Equals(const Polynomial& rhs)const{
 	if (_degree != rhs._degree){
 		return false;
