@@ -119,15 +119,37 @@ const Polynomial Polynomial::Multiply(const Polynomial& rhs)const {
 
 
 const Polynomial Polynomial::Divide(const Polynomial& rhs)const{
-    Polynomial retVal(_degree);
-    for(size_t i=0; i<_degree; ++i){
-        //for(size_t j=0; i<_degree; ++i){
+    Polynomial retVal(_degree-1);
+//    Polynomial tmpVal(_degree-1);
+//    Polynomial tmpPoly(_degree-1);
+//    Polynomial thisCopyPoly(*this);
+//
+//    for(size_t i=_degree; i>0; --i){
+//        for(size_t j=rhs._degree; i>0; --i){
 
-        //}
-    }
+//divides first cofficients of both equation and stores quotient in tmp poly
+//            tmpVal._coefficients[i+j] = _coefficients[i]/rhs._coefficients[j];
+
+//adds that qoutient to the actuall queintent
+//            retVal._coefficients[i+j] += tmpVal._coefficients[i+j];
+
+//multiply the second equation with the tmp quotient
+//            tmpPoly = rhs.Multiply(tmpVal);
+
+//subtracts the tmp polynomial with this and creates a new this with the output
+//            thisCopyPoly = thisCopyPoly.Subtract(tmpPoly);
+//
+// resets the tmp objects
+//            tmpVal = 0;
+//            tmpPoly=0;
+//
+//        }
+//    }
+//
+//
+	return retVal;
 
 
-	return Polynomial(0);
 }
 
 
